@@ -75,10 +75,14 @@ async def send_smart_split_message(message, text: str) -> None:
         if not chunk:
             continue
         try:
-            await message.reply_text(chunk, parse_mode=ParseMode.MARKDOWN)
+            await message.reply_text(
+                chunk,
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True
+            )
         except Exception as e:
             logger.warning(f"Markdown failed ({e}), sending plain text...")
-            await message.reply_text(chunk)
+            await message.reply_text(chunk, disable_web_page_preview=True)
 
 async def delete_after_delay(msg, delay: int = 15):
     await asyncio.sleep(delay)
@@ -250,7 +254,8 @@ async def cmd_broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             await context.bot.send_message(
                 chat_id=user_id,
                 text=broadcast_text,
-                parse_mode=ParseMode.MARKDOWN
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True
             )
             count += 1
             await asyncio.sleep(0.05)
@@ -379,7 +384,8 @@ async def handle_chat_join_request(update: Update, context: ContextTypes.DEFAULT
         await context.bot.send_message(
             chat_id=user_id,
             text=dm_text,
-            parse_mode=ParseMode.MARKDOWN
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True
         )
         logger.info(f"Successfully delivered Auto-DM to {user_name}")
     except Exception as e:
@@ -511,7 +517,8 @@ async def post_daily_tech_tip(context: ContextTypes.DEFAULT_TYPE):
         await context.bot.send_message(
             chat_id=COMMUNITY_CHAT_ID,
             text=f"🌸 **Riya's Tech Tip of the Day!** ⚡\n\n{tip}\n\n🔗 Curated with love by **DC VOLTAGE**: {GITHUB_URL}",
-            parse_mode=ParseMode.MARKDOWN
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True
         )
         logger.info("Daily tech tip posted successfully.")
     except Exception as e:
