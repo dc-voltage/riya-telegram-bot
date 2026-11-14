@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: riya-ai-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 bot.py
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: PORT
+        value: 10000
+      - key: TELEGRAM_BOT_TOKEN
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: COMMUNITY_CHAT_ID
+        value: -1003098658474
