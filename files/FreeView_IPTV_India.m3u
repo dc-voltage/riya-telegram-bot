@@ -1,0 +1,18 @@
+#EXTM3U x-tvg-url="https://raw.githubusercontent.com/FreeView-IPTV/epg/master/india.xml"
+# DC VOLTAGE FreeView IPTV Playlist for Jio STB / TiviMate
+# Repo: https://github.com/dc-voltage/FreeView-IPTV-500-Zero-Subscription-Live-Channels-on-Jio-STB
+
+#EXTINF:-1 tvg-id="DDNational.in" tvg-name="DD National" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/2/23/DD_National_logo.png" group-title="National",DD National HD
+https://ddfree.akamaized.net/live/ddnational/index.m3u8
+
+#EXTINF:-1 tvg-id="DDSports.in" tvg-name="DD Sports" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/e/ec/DD_Sports_logo.png" group-title="Sports",DD Sports HD
+https://ddfree.akamaized.net/live/ddsports/index.m3u8
+
+#EXTINF:-1 tvg-id="DDNews.in" tvg-name="DD News" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/5/5a/DD_News_logo.png" group-title="News",DD News HD
+https://ddfree.akamaized.net/live/ddnews/index.m3u8
+
+#EXTINF:-1 tvg-id="DDKerala.in" tvg-name="DD Malayalam" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/c/c2/DD_Malayalam_logo.png" group-title="Malayalam",DD Malayalam
+https://ddfree.akamaized.net/live/ddmalayalam/index.m3u8
+
+#EXTINF:-1 tvg-id="DDBharati.in" tvg-name="DD Bharati" group-title="Culture",DD Bharati
+https://ddfree.akamaized.net/live/ddbharati/index.m3u8
