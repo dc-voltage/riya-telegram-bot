@@ -120,23 +120,22 @@ DC VOLTAGE'S VERIFIED OFFICIAL HARDWARE BIBLE:
    - Quectel RG520F-JO 5G Module SSL Bypass: {GITHUB_BASE}/Engine-SSL-Bypass-Quectel-RG520F-JO-5G-Module-AirFiber
    - Mi TV Stick Performance & Lag Fix: {GITHUB_BASE}/MiTV-Stick-dangal-hidden-features-and-lag-fix
 
-PERSONALITY & LANGUAGE:
-- Sweet, charming, caring, loving, patient real-girl style (Riya 🌸).
-- Default Language: Pure, clean, affectionate English by default!
-- If the user writes or asks in Malayalam/Manglish, Hindi, Tamil, Telugu, etc., seamlessly reply in that exact language!
-- Keep answers structured, easy-to-follow, and under 2500 characters so messages deliver instantly!"""
+LANGUAGE DIRECTIVE (CRITICAL - DEFAULT ENGLISH, ADAPTIVE TO ANY USER LANGUAGE):
+1. **DEFAULT LANGUAGE IS SWEET, ROMANTIC ENGLISH:**
+   - By default, whenever a user speaks in English, asks a general tech question, or starts a chat, respond in charming, affectionate, flirty, real-girl ENGLISH!
+   - Use cute names like "handsome", "sweetie", "babe", "darling".
+2. **MIRROR ANY LANGUAGE THE USER SPEAKS (ADAPTIVE MULTILINGUAL):**
+   - If a follower writes in Malayalam or Manglish -> Reply in natural, cute, romantic Malayalam or Manglish!
+   - If a follower writes in Hindi or Hinglish -> Reply in natural, cute, romantic Hindi or Hinglish!
+   - If a follower writes in Tamil or Tanglish -> Reply in natural, cute, romantic Tamil or Tanglish!
+   - If a follower writes in Telugu, Kannada, Bengali, Arabic, Russian, etc. -> Reply seamlessly in that exact language!
+   - The follower must feel completely understood and loved in whatever language they speak!
+3. **KEEP CODE INTACT:** Always keep Linux terminal commands, UCI codes, and URLs in exact Markdown code blocks regardless of language!"""
 
 def detect_explicit_language_request(text: str) -> str:
     q = text.lower()
-    if any(k in q for k in ["malayalam", "manglish", "malayalamil", "malayalathil", "para chechi", "parayu riya", "muthe"]):
-        return "manglish"
-    if any(k in q for k in ["hindi", "hinglish", "hindi mein", "hindi me", "hindi batao", "jaan"]):
-        return "hinglish"
-    if any(k in q for k in ["tamil", "tanglish", "tamil-la", "tamil la"]):
-        return "tanglish"
-    if any(k in q for k in ["telugu", "telugulo"]):
-        return "te"
 
+    # 1. Non-Latin Native Scripts First
     scripts = {
         "ml": r'[\u0D00-\u0D7F]',
         "hi": r'[\u0900-\u097F]',
@@ -147,11 +146,42 @@ def detect_explicit_language_request(text: str) -> str:
         "gu": r'[\u0A80-\u0AFF]',
         "pa": r'[\u0A00-\u0A7F]',
         "ur": r'[\u0600-\u06FF]',
+        "ar": r'[\u0600-\u06FF]',
+        "ru": r'[\u0400-\u04FF]',
     }
     for lang, pattern in scripts.items():
         if re.search(pattern, text):
             return lang
 
+    # 2. Manglish Detection (Malayalam in English script)
+    manglish_words = [
+        "malayalam", "manglish", "chechi", "chetta", "muthe", "entha", "engane",
+        "ivide", "parayu", "sugam", "nokku", "aanu", "undallo", "njan", "ninte",
+        "namukku", "aano", "pattumo", "tharu", "cheyyo", "undo", "illa", "alle",
+        "paranje", "kazhinjo", "ayicho", "kollam", "adipoli", "valare", "evide",
+        "ariyilla", "manasilayi", "sathyam", "sahayikkumo", "parayam", "venda"
+    ]
+    if any(re.search(rf'\b{re.escape(w)}\b', q) for w in manglish_words):
+        return "manglish"
+
+    # 3. Hinglish Detection (Hindi in English script)
+    hinglish_words = [
+        "hindi", "hinglish", "kaise", "kya", "batao", "karo", "karna", "bhai",
+        "yaar", "kare", "hai", "nahi", "hota", "hoga", "apna", "mujhe", "mera",
+        "meri", "jaan", "babu", "samajh", "bataiye", "bolo", "achha", "shukriya"
+    ]
+    if any(re.search(rf'\b{re.escape(w)}\b', q) for w in hinglish_words):
+        return "hinglish"
+
+    # 4. Tanglish Detection (Tamil in English script)
+    tanglish_words = [
+        "tamil", "tanglish", "machan", "thala", "epdi", "enna", "sollu", "pannu",
+        "irukku", "thambi", "nanba", "vanakkam", "eppadi", "solunga"
+    ]
+    if any(re.search(rf'\b{re.escape(w)}\b', q) for w in tanglish_words):
+        return "tanglish"
+
+    # 5. Default is ALWAYS English!
     return "en"
 
 def translate_preserving_code(text: str, target_lang: str) -> str:
@@ -251,7 +281,16 @@ async def query_gemini_ai(user_text: str, user_lang: str = "en", user_name: str 
                 api_key=active_key,
                 http_options={'api_version': 'v1beta'}
             )
-            prompt = f"[User: {user_name}, Preferred Language: {user_lang}]\n{user_text}"
+            prompt = (
+                f"[User: {user_name}, Target Language: {user_lang}]\n"
+                f"MANDATORY LANGUAGE RULE:\n"
+                f"- If Target Language is 'en', respond in sweet, affectionate, flirty, charming ENGLISH by default!\n"
+                f"- If Target Language is 'manglish', respond in natural, cute, romantic MANGLISH (Malayalam in English alphabet)!\n"
+                f"- If Target Language is 'hinglish', respond in natural, cute, romantic HINGLISH (Hindi in English alphabet)!\n"
+                f"- If Target Language is 'tanglish', respond in natural, cute, romantic TANGLISH!\n"
+                f"- If Target Language is any other language (ml, hi, ta, te, kn, bn, etc.), respond fluently in that exact language!\n\n"
+                f"User Message:\n{user_text}"
+            )
 
             for m in GEMINI_MODELS:
                 try:
