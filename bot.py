@@ -407,7 +407,7 @@ async def handle_new_chat_members(update: Update, context: ContextTypes.DEFAULT_
                 "ADB debloating, and network troubleshooting. Just ask your doubts directly! ✨\n\n"
                 f"🔗 **Verified Hub:** [github.com/dc-voltage]({GITHUB_URL})\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "*(⏱ Auto-clearing in 60s to keep chat clean)*"
+                "*(⏱ Auto-clearing in 12h to keep chat clean)*"
             )
             try:
                 sent = await chat.send_message(
@@ -415,7 +415,7 @@ async def handle_new_chat_members(update: Update, context: ContextTypes.DEFAULT_
                     parse_mode=ParseMode.MARKDOWN,
                     disable_web_page_preview=True
                 )
-                asyncio.create_task(delete_after_delay(sent, 60))
+                asyncio.create_task(delete_after_delay(sent, 12 * 3600))
             except Exception as e:
                 logger.warning(f"Failed to send bot join message: {e}")
         else:
@@ -435,7 +435,7 @@ async def handle_new_chat_members(update: Update, context: ContextTypes.DEFAULT_
                 "🌸 *I am Riya. Ask any technical doubt or send router photos directly here!*\n\n"
                 f"🔗 **Verified Tools:** [github.com/dc-voltage]({GITHUB_URL})\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "*(⏱ Auto-clearing in 60s to keep chat clean)*"
+                "*(⏱ Auto-clearing in 12h to keep chat clean)*"
             )
             try:
                 sent = await chat.send_message(
@@ -443,9 +443,9 @@ async def handle_new_chat_members(update: Update, context: ContextTypes.DEFAULT_
                     parse_mode=ParseMode.MARKDOWN,
                     disable_web_page_preview=True
                 )
-                asyncio.create_task(delete_after_delay(sent, 60))
+                asyncio.create_task(delete_after_delay(sent, 12 * 3600))
                 if service_msg:
-                    asyncio.create_task(delete_after_delay(service_msg, 60))
+                    asyncio.create_task(delete_after_delay(service_msg, 12 * 3600))
             except Exception as e:
                 logger.warning(f"Failed to send welcome message: {e}")
 
