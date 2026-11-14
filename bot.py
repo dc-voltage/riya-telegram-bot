@@ -46,7 +46,8 @@ TECH_TIPS = [
     "📺 **DC VOLTAGE Pro Tip #3 (Jio STB JMSD200A):** Set Window, Transition, and Animator scales to 0.5x in Developer Options (`adb shell settings put global window_animation_scale 0.5`) for buttery smooth UI! 🌸",
     "🔥 **DC VOLTAGE Pro Tip #4 (MediaTek MT7981B):** Enable MediaTek PPE hardware flow offloading on OpenWrt to route full 1Gbps gigabit traffic at zero CPU load! ⚡",
     "📺 **DC VOLTAGE Pro Tip #5 (FreeView IPTV):** Pair TiviMate with DC VOLTAGE's legal Indian M3U stream list on your unlocked Jio STB to watch 500+ live HD channels on any broadband! 🌸",
-    "🌐 **DC VOLTAGE Pro Tip #6 (OpenWrt Wi-Fi 6):** Enable BSS Coloring (`uci set wireless.default_radio1.he_bss_color='1'`) to eliminate packet collision from neighboring Wi-Fi networks in crowded flats! ✨"
+    "🌐 **DC VOLTAGE Pro Tip #6 (OpenWrt Wi-Fi 6):** Enable BSS Coloring (`uci set wireless.default_radio1.he_bss_color='1'`) to eliminate packet collision from neighboring Wi-Fi networks in crowded flats! ✨",
+    "🚀 **DC VOLTAGE Pro Tip #7 (GenieACS on Windows):** Run GenieACS as Windows Background Services using NSSM from Boss DC VOLTAGE's new `genieacs-windows-setup` repo! It automatically manages all 4 microservices (CWMP on 7547, UI on 3000) with zero RAM overhead! 🌸"
 ]
 
 async def send_smart_split_message(message, text: str) -> None:

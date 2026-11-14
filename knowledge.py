@@ -153,9 +153,27 @@ uci commit wireless && wifi reload"""
         "title": "MiTV-Stick Dangal Hidden Features and Lag Fix",
         "repo_url": f"{GITHUB_BASE}/MiTV-Stick-dangal-hidden-features-and-lag-fix",
         "details": "Debloating and performance optimization guide for Xiaomi Mi TV Stick."
+    },
+
+    # 12. GenieACS Windows Complete Setup & TR-069 Server
+    "genieacs_windows": {
+        "title": "GenieACS Windows Native Setup & TR-069 / CWMP Server",
+        "repo_url": f"{GITHUB_BASE}/genieacs-windows-setup",
+        "ports": "CWMP: 7547, Web UI: 3000, NBI: 7557, FS: 7567",
+        "details": [
+            "Native Windows (10/11/Server) installation without WSL or Docker.",
+            "Node.js 18/20 LTS + MongoDB Community Edition + GenieACS v1.2.9.",
+            "NSSM background Windows services configuration with automated start/stop scripts.",
+            "One-click Windows Firewall setup script for TR-069 port 7547.",
+            "Complete ACS configuration guide for Jio, Airtel, Nokia, Zyxel, Huawei, Netlink ONTs and STBs."
+        ],
+        "default_creds": "http://localhost:3000 (admin / admin)"
     }
 }
 
 REPOSITORIES_DATA["jio_stb"] = REPOSITORIES_DATA["jmsc200a"]
+REPOSITORIES_DATA["genieacs"] = REPOSITORIES_DATA["genieacs_windows"]
+REPOSITORIES_DATA["cwmp"] = REPOSITORIES_DATA["genieacs_windows"]
+REPOSITORIES_DATA["tr069"] = REPOSITORIES_DATA["genieacs_windows"]
 GUIDES = REPOSITORIES_DATA
 REPOSITORIES = REPOSITORIES_DATA
