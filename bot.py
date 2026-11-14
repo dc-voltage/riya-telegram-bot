@@ -293,6 +293,19 @@ async def handle_photo_message(update: Update, context: ContextTypes.DEFAULT_TYP
     user_name = user.first_name if user else "Friend"
     chat = update.effective_chat
     caption = update.message.caption or ""
+    bot_username = context.bot.username or "JioUnlockHelper_bot"
+
+    # In groups, ignore admins/Boss photos unless explicitly calling Riya
+    if chat and chat.type in [ChatType.GROUP, ChatType.SUPERGROUP]:
+        if await is_sender_admin(update, context):
+            is_reply_to_bot = (
+                update.message.reply_to_message and
+                update.message.reply_to_message.from_user and
+                update.message.reply_to_message.from_user.id == context.bot.id
+            )
+            is_mentioned = bool(re.search(rf'@{bot_username}\b|\briya\b', caption, re.IGNORECASE))
+            if not (is_reply_to_bot or is_mentioned):
+                return
 
     record_user(user.id, user.username, user_name)
     record_event("image_query")
@@ -468,6 +481,20 @@ async def handle_user_message(update: Update, context: ContextTypes.DEFAULT_TYPE
     logger.info(f"[MSG] From {user_name} ({chat_type}): '{user_text}'")
 
     bot_username = context.bot.username or "JioUnlockHelper_bot"
+
+    # In groups, ignore messages from Boss/Admins unless Riya is explicitly mentioned or replied to
+    if chat_type in [ChatType.GROUP, ChatType.SUPERGROUP]:
+        if await is_sender_admin(update, context):
+            is_reply_to_bot = (
+                update.message.reply_to_message and
+                update.message.reply_to_message.from_user and
+                update.message.reply_to_message.from_user.id == context.bot.id
+            )
+            is_mentioned = bool(re.search(rf'@{bot_username}\b|\briya\b', user_text, re.IGNORECASE))
+            if not (is_reply_to_bot or is_mentioned):
+                logger.info(f"Ignored group message from Boss/Admin {user_name}: '{user_text}'")
+                return
+
     clean_text = re.sub(rf'@{bot_username}\b', '', user_text, flags=re.IGNORECASE).strip()
     if not clean_text:
         clean_text = "hi"
