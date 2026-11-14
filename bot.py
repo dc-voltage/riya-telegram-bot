@@ -173,15 +173,14 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     record_event("cmd_start")
 
     base_text = (
-        f"Haii {name}! 🌸 I'm **Riya**, the official AI tech assistant for **DC VOLTAGE**! 😊\n\n"
-        "I am here to guide you step-by-step on how to set up and unlock your hardware using "
-        "Boss **DC VOLTAGE's** official, verified GitHub methods!\n\n"
+        f"Haii handsome {name}! 🌸 I'm **Riya**! 😊💕\n\n"
+        "I'm right here with Boss **DC VOLTAGE** to help you unlock and supercharge your routers, STBs, and 5G hardware!\n\n"
         "🌟 **What I Can Do For You:**\n"
-        "• **Ask Any Question:** Step-by-step tutorials with exact terminal commands.\n"
-        "• **Send Photos:** Upload router back stickers or terminal error screenshots — I'll inspect them with AI vision!\n"
-        "• **Direct Scripts:** Ask for flashers or IPTV playlists, and I'll send you the `.bat` / `.sh` files directly!\n"
-        "• **Voice Messages:** Ask me to speak or send a voice message for sweet audio replies! 🎙️\n\n"
-        f"⚡ Official Repositories: {GITHUB_URL} 🌸"
+        "• **Step-by-Step Guides:** Ask me your doubt and I'll explain every step with exact commands.\n"
+        "• **Send Photos:** Got an error or router sticker? Send me the photo, I'll check it right away! 📸\n"
+        "• **Direct Scripts:** Ask for flasher `.bat`, `.sh`, or IPTV files, and I'll send them directly to your chat!\n"
+        "• **Sweet Voice Notes:** Want to hear my voice? Just ask for a voice note! 🎙️💕\n\n"
+        f"⚡ Boss DC VOLTAGE Official Hub: {GITHUB_URL} 🌸"
     )
 
     lang = context.user_data.get("lang", "auto")
@@ -367,9 +366,9 @@ async def handle_chat_join_request(update: Update, context: ContextTypes.DEFAULT
         logger.warning(f"Could not approve join request for {user_name}: {e}")
 
     dm_text = (
-        f"Hello {user_name}! 🌸 Welcome to the **Jio & Airtel Unlock Community**! 😊✨\n\n"
-        "I am Riya, the official AI tech assistant for **DC VOLTAGE**.\n\n"
-        "Here are the direct links to our official GitHub guides and automated toolkits:\n\n"
+        f"Haii handsome {user_name}! 🌸 Welcome to the **Jio & Airtel Unlock Community**! 😊✨\n\n"
+        "I am Riya, right here with Boss **DC VOLTAGE**! 💕\n\n"
+        "Here are the direct links to our official verified guides and automated toolkits:\n\n"
         "⚡ **1. Jio AirFiber 6J11 (JIDU 6111) Root Password & Flasher:**\n"
         f"🔗 [Jio 6111 OpenWrt Guide]({GUIDES['jidu_6111']['repo_url']})\n\n"
         "🚀 **2. Airtel AirFiber AAP4221ZY 1-Watt High-Power Wi-Fi:**\n"
@@ -401,10 +400,10 @@ async def handle_new_chat_members(update: Update, context: ContextTypes.DEFAULT_
     for member in update.message.new_chat_members:
         if member.id == context.bot.id:
             welcome_text = (
-                "⚡ **DC VOLTAGE AI SYSTEM ONLINE** 🌸\n"
+                "⚡ **DC VOLTAGE COMMUNITY ONLINE** 🌸\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
-                "Haii everyone! I am **Riya**, the official AI Tech Assistant for **DC VOLTAGE**.\n\n"
-                "I am active 24/7 to help you with router unlocking, OpenWrt flashing, "
+                "Haii everyone! I am **Riya** 🌸, right here with Boss **DC VOLTAGE**.\n\n"
+                "I am here 24/7 to help you with router unlocking, OpenWrt flashing, "
                 "ADB debloating, and network troubleshooting. Just ask your doubts directly! ✨\n\n"
                 f"🔗 **Verified Hub:** [github.com/dc-voltage]({GITHUB_URL})\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
@@ -433,7 +432,7 @@ async def handle_new_chat_members(update: Update, context: ContextTypes.DEFAULT_
                 "• **Airtel AAP4221ZY:** 1-Watt 30 dBm Wi-Fi & MTK PPE Offload\n"
                 "• **Jio 4K STB:** 100% ADB Unlock & FreeView IPTV (500+ Ch)\n"
                 "• **Jio 5G ODU:** TR-069 Eradication & Pure Bridge Mode\n\n"
-                "🌸 *I am Riya, your AI Assistant. Ask any technical doubt or send router photos directly here!*\n\n"
+                "🌸 *I am Riya. Ask any technical doubt or send router photos directly here!*\n\n"
                 f"🔗 **Verified Tools:** [github.com/dc-voltage]({GITHUB_URL})\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "*(⏱ Auto-clearing in 60s to keep chat clean)*"
