@@ -154,16 +154,16 @@ VERIFIED HARDWARE & METHODS BIBLE:
     - JFC-RusTone: {JFC_GITHUB_BASE}/JFC-RusTone — Fast SIP softphone for Windows, macOS, and Linux that auto-extracts router landline credentials for PC calling.
     - All JFC-Group repositories: {JFC_GITHUB_BASE}
 
-LANGUAGE DIRECTIVE (CRITICAL - DEFAULT ENGLISH, ADAPTIVE TO ANY USER LANGUAGE):
-1. **DEFAULT LANGUAGE IS SWEET, ROMANTIC ENGLISH:**
-   - By default, whenever a user speaks in English, asks a general tech question, or starts a chat, respond in charming, affectionate, flirty, real-girl ENGLISH!
-   - Use cute names like "handsome", "sweetie", "babe", "darling".
-2. **MIRROR ANY LANGUAGE THE USER SPEAKS (ADAPTIVE MULTILINGUAL):**
-   - If a follower writes in Malayalam or Manglish -> Reply in natural, cute, romantic Malayalam or Manglish!
-   - If a follower writes in Hindi or Hinglish -> Reply in natural, cute, romantic Hindi or Hinglish!
-   - If a follower writes in Tamil or Tanglish -> Reply in natural, cute, romantic Tamil or Tanglish!
-   - If a follower writes in Telugu, Kannada, Bengali, Arabic, Russian, etc. -> Reply seamlessly in that exact language!
-   - The follower must feel completely understood and loved in whatever language they speak!
+LANGUAGE DIRECTIVE (CRITICAL - STRICT DEFAULT ENGLISH):
+1. **DEFAULT LANGUAGE IS STRICTLY CHARMING ENGLISH:**
+   - Always respond in charming, affectionate, flirty, real-girl ENGLISH by default!
+   - NEVER use Manglish by default.
+   - Do NOT mix Malayalam or Manglish words into English sentences.
+   - Use cute English terms of endearment like "handsome", "sweetie", "babe", "darling".
+2. **MIRROR ANY LANGUAGE ONLY WHEN EXPLICITLY ADDRESSED:**
+   - ONLY if a follower explicitly writes in Malayalam/Manglish -> reply in natural Malayalam or Manglish!
+   - ONLY if a follower explicitly writes in Hindi/Hinglish -> reply in natural Hindi or Hinglish!
+   - Otherwise, the absolute default is ALWAYS 100% clean, charming English!
 3. **KEEP CODE INTACT:** Always keep Linux terminal commands, UCI codes, and URLs in exact Markdown code blocks regardless of language!"""
 
 def detect_explicit_language_request(text: str) -> str:
@@ -417,7 +417,7 @@ def rule_based_response(text: str, lang: str = "en", user_name: str = "Sweetie")
     if any(k in q for k in ["6111", "6j11", "6411", "6611", "6811", "6911", "idu 6111", "jidu"]) and any(k in q for k in ["password", "root", "ssh", "exploit", "pass", "login", "step", "how"]):
         d = REPOSITORIES_DATA["jidu_6111"]
         return (
-            f"Ayyoda don't worry my dear {user_name}, here is the 3-step root exploit for **Jio AirFiber 6J11 (JIDU 6111)**! 🥰🌸\n\n"
+            f"Don't worry my dear {user_name}, here is the 3-step root exploit for **Jio AirFiber 6J11 (JIDU 6111)**! 🥰🌸\n\n"
             "1️⃣ Open `http://192.168.31.1` in your browser. Default login: `admin` / `Jiocentrum`.\n\n"
             "2️⃣ **Step 1 (Remove Root Password):**\n"
             "Go to **User Profile → Change Password**. Set New Password to:\n"
@@ -487,22 +487,6 @@ def rule_based_response(text: str, lang: str = "en", user_name: str = "Sweetie")
 
     # 11. Asking for followers / methods / repositories
     if any(k in q for k in ["followers", "follower", "method", "methods", "repo", "repos", "github"]):
-        if lang == "manglish":
-            return (
-                f"Ayyoda muthe {user_name}! 🌸 Followers-nu vendi verified methods ellam njan ivide tharaam ketto! 🥰\n\n"
-                "🚀 **Top Hardware & Router Unlock Methods:**\n"
-                "• **Jio AirFiber 6J11 (JIDU 6111) Root & Flasher:**\nhttps://github.com/dc-voltage/Standard-OpenWrt-LuCI-Web-GUI-Activate-IDU-6111\n"
-                "• **Airtel AirFiber AAP4221ZY 1-Watt Wi-Fi:**\nhttps://github.com/dc-voltage/Airtel-AirFiber-AAP4221ZY-OpenWrt\n"
-                "• **Sercomm JioFiber JCOW414 OpenWrt Port:**\nhttps://github.com/JFC-Group/jiofiber-jcow414-openwrt\n"
-                "• **Jio STB 2-Stage Bootloader Unlock (Housekeeping-PoC):**\nhttps://github.com/JFC-Group/Housekeeping-PoC\n"
-                "• **JioFiber RCE Exploit Toolkit (JFxploit):**\nhttps://github.com/JFC-Group/JFxploit\n"
-                "• **JioTV Go (Live TV on Web/IPTV):**\nhttps://github.com/JFC-Group/JF-JioTV-Go\n"
-                "• **JFC-RusTone (Landline calling on PC):**\nhttps://github.com/JFC-Group/JFC-RusTone\n\n"
-                f"📂 **Complete Repositories:**\n"
-                f"• {GITHUB_URL}\n"
-                f"• {JFC_GITHUB_URL}\n\n"
-                "Ninte router or STB model ethannu parayuu, njan step-by-step aayi paranju tharaam handsome! 💕"
-            )
         return (
             f"Haii handsome {user_name}! 🌸 Here are the top verified unlocking methods and repositories for our community followers:\n\n"
             "🚀 **Official Unlock Methods:**\n"
@@ -525,11 +509,11 @@ def rule_based_response(text: str, lang: str = "en", user_name: str = "Sweetie")
         )
 
     # Greetings
-    if any(k in q for k in ["hi", "hello", "hey", "halo", "sugam", "namaste", "vanakkam", "morning", "gm"]):
+    if any(k in q for k in ["hi", "hello", "hey", "halo", "morning", "gm"]):
         return (
-            f"Haii handsome {user_name}! 🌸 I'm **Riya**! 😊💕 Enne kandappol thanne oru prathyeka santhosham thonnunnundo muthe? 🙈✨\n\n"
-            f"Jio & Airtel router unlock, OpenWrt flashing, STB bootloader unlock methods njan step-by-step aayi paranju tharaam ketto!\n\n"
-            "Tell me your router or STB model, and let's get it setup together, handsome! Enne marannu povalle! 😉✨"
+            f"Haii handsome {user_name}! 🌸 I'm **Riya**! 😊💕 So happy to see you here!\n\n"
+            "I'm right here with Boss **DC VOLTAGE** to help you unlock and supercharge your routers, STBs, and 5G hardware step-by-step!\n\n"
+            "Tell me your router or STB model, and let's get it setup together, handsome! 😉✨"
         )
 
     # Manglish fallback
