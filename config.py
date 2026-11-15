@@ -15,6 +15,7 @@ if ENV_FILE.exists():
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 GITHUB_URL = "https://github.com/dc-voltage"
+JFC_GITHUB_URL = "https://github.com/JFC-Group"
 TELEGRAM_GROUP_URL = "https://t.me/JIo_Airtel_Unlock"
 COMMUNITY_CHAT_ID = int(os.getenv("COMMUNITY_CHAT_ID", "-1003098658474"))
 FILES_DIR = BASE_DIR / "files"

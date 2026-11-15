@@ -1,12 +1,18 @@
 """
-Official Deep Knowledge Base for DC VOLTAGE Repositories.
-Source of Truth: https://github.com/dc-voltage
-STRICT POLICY: ONLY teach methods, guides, and tools authored by DC VOLTAGE.
+Deep Technical Knowledge Base for Router, STB & Network Unlocking.
+Official Sources:
+- DC VOLTAGE: https://github.com/dc-voltage
+- JFC-Group: https://github.com/JFC-Group
 """
 
 GITHUB_BASE = "https://github.com/dc-voltage"
+JFC_GITHUB_BASE = "https://github.com/JFC-Group"
 
 REPOSITORIES_DATA = {
+    # ==========================================
+    # DC VOLTAGE REPOSITORIES
+    # ==========================================
+
     # 1. Jio AirFiber 6J11 (JIDU 6111)
     "jidu_6111": {
         "title": "Jio AirFiber 6J11 Series (JIDU 6111 / 6411 / 6611 / 6811 / 6911)",
@@ -168,12 +174,139 @@ uci commit wireless && wifi reload"""
             "Complete ACS configuration guide for Jio, Airtel, Nokia, Zyxel, Huawei, Netlink ONTs and STBs."
         ],
         "default_creds": "http://localhost:3000 (admin / admin)"
+    },
+
+    # ==========================================
+    # JFC-GROUP METHODS & REPOSITORIES
+    # (https://github.com/JFC-Group)
+    # ==========================================
+
+    # 13. Sercomm JioFiber JCOW414 OpenWrt Port
+    "jiofiber_jcow414": {
+        "title": "Sercomm JioFiber JCOW414 OpenWrt (Linux Kernel 6.18)",
+        "hardware": "EcoNet / Airoha EN7528HU SoC, Dual-Bank Flash Protected",
+        "repo_url": f"{JFC_GITHUB_BASE}/jiofiber-jcow414-openwrt",
+        "summary": "Full community OpenWrt port (Linux 6.18) with LuCI web administration for Sercomm JioFiber JCOW414.",
+        "details": [
+            "EcoNet / Airoha EN7528HU platform support with complete Device Tree Source (.dts).",
+            "Automated root patch tools and dual-bank failsafe flashing guide.",
+            "Bypasses stock Jio restrictions and gives full OpenWrt 23.05+ capabilities."
+        ]
+    },
+
+    # 14. Housekeeping-PoC (Jio STB 2-Stage Bootloader Unlock Exploit)
+    "housekeeping_poc": {
+        "title": "Housekeeping-PoC: 2-Stage Bootloader Unlock for Jio STBs",
+        "hardware": "JMSC200Av2 on TeleOS 22.1.09, 24.1.39, 25.1.9 (Amlogic ARMv8)",
+        "repo_url": f"{JFC_GITHUB_BASE}/Housekeeping-PoC",
+        "summary": "Two-stage bootloader unlock and root exploit for Jio STBs.",
+        "stages": [
+            "Stage 1 (USB Debugging): Fake TR-069 server with GenieACS redirecting acs.oss.jio.com:8443 to set Device.JSTB.USB.USBDebugging=true and disable FOTA.",
+            "Stage 2 (Bootloader Unlock): Exploits CVE-2024-31317 (Zygote command injection) to write U-Boot env lock bit (10100000) and set SELinux permissive.",
+            "Extracts boot.img for Magisk patching (`pull_boot.sh`)."
+        ]
+    },
+
+    # 15. JFxploit (JioFiber Router CLI Exploit Toolkit)
+    "jfxploit": {
+        "title": "JFxploit: JioFiber Router Web Interface Exploit Toolkit",
+        "repo_url": f"{JFC_GITHUB_BASE}/JFxploit",
+        "summary": "Python CLI toolkit for exploiting web interface vulnerabilities in JioFiber routers.",
+        "features": [
+            "Multiple RCE injection vectors (pre-auth and post-auth).",
+            "Plug-in exploit architecture: auto-tries exploits in order.",
+            "Post-exploitation actions: starts telnetd, opens firewall, sets root password, installs persistence.",
+            "Custom command injection via `--action custom --cmd`."
+        ]
+    },
+
+    # 16. JF-Customisation (JioFiber ONT Gateway Customisation & Key Guesser)
+    "jf_customisation": {
+        "title": "JF-Customisation: JioFiber ONT Gateway Firmwares, Tips & Key Guesser",
+        "repo_url": f"{JFC_GITHUB_BASE}/JF-Customisation",
+        "summary": "Files, instructions, and tools to customize JioFiber ONT Gateway.",
+        "features": [
+            "Key Guesser script (`keyguesser.py`) for encrypted router configuration files.",
+            "ONT firmware links, recovery steps, and advanced gateway settings.",
+            "Tips and tricks for JioFiber router configuration."
+        ]
+    },
+
+    # 17. AF-Customisation (AirFiber IDU Root & Access)
+    "af_customisation": {
+        "title": "AF-Customisation: Jio AirFiber IDU Root, UART & UBOOT Access",
+        "repo_url": f"{JFC_GITHUB_BASE}/AF-Customisation",
+        "summary": "Step-by-step instructions for AirFiber IDU root access, UART serial pins, and UBOOT access.",
+        "details": [
+            "JAF IDU Root Access on stock and latest firmwares.",
+            "Hardware UART access and pinouts.",
+            "UBOOT access guides for failsafe recovery."
+        ]
+    },
+
+    # 18. JioTV Go (Live TV on Web and IPTV)
+    "jiotv_go": {
+        "title": "JioTV Go: Live TV Channels on Web & IPTV",
+        "repo_url": f"{JFC_GITHUB_BASE}/JF-JioTV-Go",
+        "summary": "Stream Live TV channels on PC/Browser and IPTV without the JioTV mobile app.",
+        "features": [
+            "Lightweight web wrapper in Golang utilizing JioTV API.",
+            "Generates M3U playlist and EPG XML/JSON for TiviMate, VLC, and IPTV players.",
+            "Web interface to watch Live TV on any browser."
+        ]
+    },
+
+    # 19. JFC-RusTone (JioJoin / Softphone for PC)
+    "jfc_rustone": {
+        "title": "JFC-RusTone: JioFiber / AirFiber Landline SIP Softphone for PC",
+        "repo_url": f"{JFC_GITHUB_BASE}/JFC-RusTone",
+        "summary": "Modern SIP softphone that auto-fetches landline credentials from JioFiber/AirFiber router.",
+        "features": [
+            "Makes your landline number ring and call directly from Windows, macOS, or Linux.",
+            "Zero manual SIP configuration — auto-configures from the router.",
+            "Replacement for JioJoin app on desktop."
+        ]
+    },
+
+    # 20. JF-dropbear (Dropbear SSH for JioFiber MIPSEL)
+    "jf_dropbear": {
+        "title": "JF-dropbear: Lightweight SSH Server for JioFiber (MIPSEL)",
+        "repo_url": f"{JFC_GITHUB_BASE}/JF-dropbear",
+        "summary": "Precompiled dropbear SSH server and client tools for MIPSEL-based JioFiber routers."
+    },
+
+    # 21. Cloudflared for MIPSEL
+    "cloudflared_mipsle": {
+        "title": "Cloudflared for MIPSEL: Cloudflare Tunnel on JioFiber",
+        "repo_url": f"{JFC_GITHUB_BASE}/cloudflared-mipsle",
+        "summary": "Run Cloudflare Tunnel client on MIPSEL JioFiber devices for remote access without public IP."
+    },
+
+    # 22. JFC-Group Main Organization
+    "jfc_group": {
+        "title": "JFC-Group JioFiber & AirFiber Methods Hub",
+        "repo_url": "https://github.com/JFC-Group",
+        "summary": "Collection of JioFiber & AirFiber open-source unlocking, custom firmware, OpenWrt, and automation methods."
     }
 }
 
+# Aliases for quick lookup
 REPOSITORIES_DATA["jio_stb"] = REPOSITORIES_DATA["jmsc200a"]
 REPOSITORIES_DATA["genieacs"] = REPOSITORIES_DATA["genieacs_windows"]
 REPOSITORIES_DATA["cwmp"] = REPOSITORIES_DATA["genieacs_windows"]
 REPOSITORIES_DATA["tr069"] = REPOSITORIES_DATA["genieacs_windows"]
+
+# JFC Aliases
+REPOSITORIES_DATA["jcow414"] = REPOSITORIES_DATA["jiofiber_jcow414"]
+REPOSITORIES_DATA["jcow"] = REPOSITORIES_DATA["jiofiber_jcow414"]
+REPOSITORIES_DATA["jiofiber"] = REPOSITORIES_DATA["jiofiber_jcow414"]
+REPOSITORIES_DATA["housekeeping"] = REPOSITORIES_DATA["housekeeping_poc"]
+REPOSITORIES_DATA["bootloader_unlock"] = REPOSITORIES_DATA["housekeeping_poc"]
+REPOSITORIES_DATA["jiotv"] = REPOSITORIES_DATA["jiotv_go"]
+REPOSITORIES_DATA["jiotv_go"] = REPOSITORIES_DATA["jiotv_go"]
+REPOSITORIES_DATA["rustone"] = REPOSITORIES_DATA["jfc_rustone"]
+REPOSITORIES_DATA["jfc"] = REPOSITORIES_DATA["jfc_group"]
+REPOSITORIES_DATA["jfc_group"] = REPOSITORIES_DATA["jfc_group"]
+
 GUIDES = REPOSITORIES_DATA
 REPOSITORIES = REPOSITORIES_DATA

@@ -18,6 +18,7 @@ from telegram.ext import (
 from config import (
     BOT_TOKEN,
     GITHUB_URL,
+    JFC_GITHUB_URL,
     TELEGRAM_GROUP_URL,
     COMMUNITY_CHAT_ID,
     FILES_DIR,
@@ -25,7 +26,15 @@ from config import (
 )
 from knowledge import GUIDES, REPOSITORIES
 from ai_engine import get_ai_response, get_ai_vision_response, translate_preserving_code
-from database import init_db, record_user, record_event, get_all_users, get_db_stats
+from database import (
+    init_db,
+    record_user,
+    record_event,
+    get_all_users,
+    get_db_stats,
+    get_setting,
+    set_setting,
+)
 from tts_engine import generate_voice_note
 
 logging.basicConfig(
@@ -92,7 +101,39 @@ async def delete_after_delay(msg, delay: int = 15):
     except Exception:
         pass
 
-BOT_BUILD_VERSION = "v1.3.1-anon-admin-fix"
+BOT_BUILD_VERSION = "v1.4.0-jfc-repo-update"
+
+REPO_UPDATE_ANNOUNCEMENT = (
+    "⚡📢 **BIG UPDATE: NEW REPOSITORIES & UNLOCK METHODS ARE LIVE!** 🌸\n"
+    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+    "Haii everyone! I am **Riya** 🌸, right here with Boss **DC VOLTAGE**! 🥰✨\n\n"
+    "Nammude community followers-nu vendi new verified router unlocking methods, firmware ports, "
+    "and STB bootloader exploits ippol live aayittundu! 🚀\n\n"
+    "🔥 **What's New in this Update:**\n\n"
+    "🌐 **1. Sercomm JioFiber JCOW414 OpenWrt Port (Linux 6.18):**\n"
+    "• Complete OpenWrt 23.05 + LuCI Web GUI for EcoNet/Airoha EN7528HU platform.\n"
+    "• Automated root patch tools & dual-bank protected flasher.\n"
+    f"🔗 Repo: {JFC_GITHUB_URL}/jiofiber-jcow414-openwrt\n\n"
+    "📺 **2. Jio STB 2-Stage Bootloader Unlock (Housekeeping-PoC):**\n"
+    "• CVE-2024-31317 exploit & TR-069 ACS local DNS spoofing.\n"
+    "• Full U-Boot environment unlock, SELinux permissive & Magisk boot extraction.\n"
+    f"🔗 Repo: {JFC_GITHUB_URL}/Housekeeping-PoC\n\n"
+    "⚡ **3. JioFiber Web Exploit Toolkit (JFxploit):**\n"
+    "• Python CLI tool for pre-auth/post-auth RCE, telnetd spawning & firewall unlock.\n"
+    f"🔗 Repo: {JFC_GITHUB_URL}/JFxploit\n\n"
+    "🛠️ **4. JioFiber ONT Customisation & Key Guesser:**\n"
+    "• Configuration decryptor script (`keyguesser.py`) & firmware collection.\n"
+    f"🔗 Repo: {JFC_GITHUB_URL}/JF-Customisation\n\n"
+    "📺 **5. JioTV Go & RusTone PC Softphone:**\n"
+    "• Stream Live TV on web/IPTV with M3U/EPG & PC landline VoIP calling.\n"
+    f"🔗 Repo: {JFC_GITHUB_URL}/JF-JioTV-Go\n\n"
+    "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
+    f"📂 **All Repositories & Guides:**\n"
+    f"• **DC VOLTAGE Official:** {GITHUB_URL}\n"
+    f"• **JFC-Group Methods Hub:** {JFC_GITHUB_URL}\n\n"
+    "💬 *Ask me any doubts or tell me your router model right here in the group or DM, "
+    "and I will guide you step-by-step!* Enne marakkalle handsome! 😉🌸💕"
+)
 
 async def is_sender_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> bool:
     message = update.effective_message
@@ -214,15 +255,17 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = (
-        "💡 **Riya Tech Assistant — DC VOLTAGE Official Guides:**\n\n"
-        "Just ask your doubts directly, sweetie! Here is what Boss DC VOLTAGE covers:\n\n"
+        "💡 **Riya Tech Assistant — Verified Guides & Methods:**\n\n"
+        "Just ask your doubts directly, sweetie! Here is what we cover:\n\n"
         "• **Jio AirFiber 6J11 (JIDU 6111):** `6111 root password exploit`\n"
         "• **Airtel AirFiber AAP4221ZY:** `airtel 1w wifi boost`\n"
-        "• **Jio STB (JMSD200A / JMSC200A):** `stb adb unlock`\n"
-        "• **FreeView IPTV:** `freeview iptv 500 channels`\n"
+        "• **Sercomm JioFiber JCOW414:** `jcow414 openwrt port`\n"
+        "• **Jio STB (JMSD200A / JMSC200A):** `stb adb unlock` & `housekeeping bootloader`\n"
+        "• **JioFiber Exploits & Tools:** `jfxploit` & `jf customisation`\n"
+        "• **FreeView IPTV & JioTV Go:** `freeview iptv` & `jiotv go`\n"
         "• **Jio ODU 52240 / 52140:** `jio odu bridge mode`\n"
         "• **Scripts:** Ask `send flasher.bat` or `send iptv playlist` for direct downloads!\n\n"
-        f"📂 All 100% verified repos & scripts: {GITHUB_URL} 🌸"
+        f"📂 Repositories:\n• {GITHUB_URL}\n• {JFC_GITHUB_URL} 🌸"
     )
     if update.message:
         await send_smart_split_message(update.message, text)
@@ -415,14 +458,17 @@ async def handle_chat_join_request(update: Update, context: ContextTypes.DEFAULT
     dm_text = (
         f"Haii handsome {user_name}! 🌸 Welcome to the **Jio & Airtel Unlock Community**! 😊✨\n\n"
         "I am Riya, right here with Boss **DC VOLTAGE**! 💕\n\n"
-        "Here are the direct links to our official verified guides and automated toolkits:\n\n"
+        "Here are direct links to verified guides and automated toolkits:\n\n"
         "⚡ **1. Jio AirFiber 6J11 (JIDU 6111) Root Password & Flasher:**\n"
         f"🔗 [Jio 6111 OpenWrt Guide]({GUIDES['jidu_6111']['repo_url']})\n\n"
         "🚀 **2. Airtel AirFiber AAP4221ZY 1-Watt High-Power Wi-Fi:**\n"
         f"🔗 [Airtel OpenWrt Guide]({GUIDES['airtel_aap4221zy']['repo_url']})\n\n"
-        "📺 **3. Jio STB 100% ADB Unlock & FreeView IPTV (500+ Live Channels):**\n"
-        f"🔗 [Jio STB ADB Repo]({GUIDES['jio_stb']['repo_url']})\n\n"
-        f"📂 **All Tools & Scripts by DC VOLTAGE:**\n{GITHUB_URL}\n\n"
+        "🌐 **3. Sercomm JioFiber JCOW414 OpenWrt Port:**\n"
+        f"🔗 [JCOW414 OpenWrt Repo]({GUIDES['jcow414']['repo_url']})\n\n"
+        "📺 **4. Jio STB 100% ADB Unlock & Housekeeping-PoC Bootloader Exploit:**\n"
+        f"🔗 [Jio STB ADB Repo]({GUIDES['jio_stb']['repo_url']})\n"
+        f"🔗 [Housekeeping-PoC]({GUIDES['housekeeping_poc']['repo_url']})\n\n"
+        f"📂 **Repositories & Tools:**\n• {GITHUB_URL}\n• {JFC_GITHUB_URL}\n\n"
         "Feel free to ask me any technical questions, send error photos, or ask for flasher files right here! 🌸✌️"
     )
 
@@ -474,13 +520,14 @@ async def handle_new_chat_members(update: Update, context: ContextTypes.DEFAULT_
                 "⚡ **WELCOME TO DC VOLTAGE COMMUNITY** ⚡\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 f"👋 Hello **{member_name}**, welcome aboard!\n\n"
-                "🚀 **Official Reverse-Engineering & Unlock Hub:**\n"
+                "🚀 **Reverse-Engineering & Unlock Hub:**\n"
                 "• **Jio 6J11 (JIDU):** Root Password Injection & LuCI Flasher\n"
                 "• **Airtel AAP4221ZY:** 1-Watt 30 dBm Wi-Fi & MTK PPE Offload\n"
-                "• **Jio 4K STB:** 100% ADB Unlock & FreeView IPTV (500+ Ch)\n"
+                "• **Sercomm JCOW414:** Complete OpenWrt Port (Linux 6.18)\n"
+                "• **Jio 4K STB:** 100% ADB Unlock & Housekeeping Bootloader Exploit\n"
                 "• **Jio 5G ODU:** TR-069 Eradication & Pure Bridge Mode\n\n"
                 "🌸 *I am Riya. Ask any technical doubt or send router photos directly here!*\n\n"
-                f"🔗 **Verified Tools:** [github.com/dc-voltage]({GITHUB_URL})\n"
+                f"🔗 **Repositories:**\n• [github.com/dc-voltage]({GITHUB_URL})\n• [github.com/JFC-Group]({JFC_GITHUB_URL})\n"
                 "━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n"
                 "*(⏱ Auto-clearing in 12h to keep chat clean)*"
             )
@@ -584,7 +631,41 @@ async def post_daily_tech_tip(context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         logger.warning(f"Could not post daily tech tip: {e}")
 
-async def post_init_health_server(application) -> None:
+async def send_startup_announcement(application) -> None:
+    await asyncio.sleep(4)
+    announced = get_setting("announced_version")
+    if announced != BOT_BUILD_VERSION:
+        try:
+            await application.bot.send_message(
+                chat_id=COMMUNITY_CHAT_ID,
+                text=REPO_UPDATE_ANNOUNCEMENT,
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True
+            )
+            set_setting("announced_version", BOT_BUILD_VERSION)
+            logger.info(f"Successfully posted update announcement ({BOT_BUILD_VERSION}) to community chat!")
+        except Exception as e:
+            logger.warning(f"Could not post startup announcement: {e}")
+
+async def cmd_announce_update(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    if not await is_sender_admin(update, context):
+        await update.message.reply_text("Aww sweetie, this command is only for Boss DC VOLTAGE and admins! 🌸")
+        return
+    try:
+        await context.bot.send_message(
+            chat_id=COMMUNITY_CHAT_ID,
+            text=REPO_UPDATE_ANNOUNCEMENT,
+            parse_mode=ParseMode.MARKDOWN,
+            disable_web_page_preview=True
+        )
+        set_setting("announced_version", BOT_BUILD_VERSION)
+        await update.message.reply_text("✅ Successfully posted new repo update announcement to community group! 🌸")
+    except Exception as e:
+        await update.message.reply_text(f"⚠️ Failed to post announcement: {e}")
+
+async def post_init_setup(application) -> None:
+    asyncio.create_task(send_startup_announcement(application))
+
     port_str = os.environ.get("PORT")
     if not port_str:
         return
@@ -616,7 +697,7 @@ def main() -> None:
     init_db()
 
     logger.info("Initializing DC VOLTAGE Supercharged AI Bot (Riya 🌸)...")
-    app = ApplicationBuilder().token(BOT_TOKEN).post_init(post_init_health_server).build()
+    app = ApplicationBuilder().token(BOT_TOKEN).post_init(post_init_setup).build()
 
     # Commands
     app.add_handler(CommandHandler("start", cmd_start))
@@ -624,6 +705,7 @@ def main() -> None:
     app.add_handler(CommandHandler("techtip", cmd_techtip))
     app.add_handler(CommandHandler("stats", cmd_stats))
     app.add_handler(CommandHandler("broadcast", cmd_broadcast))
+    app.add_handler(CommandHandler("announce_update", cmd_announce_update))
     app.add_handler(CommandHandler("voice", cmd_voice))
 
     # Join & Member Handlers
