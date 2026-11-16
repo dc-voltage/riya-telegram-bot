@@ -287,6 +287,37 @@ uci commit wireless && wifi reload"""
         "title": "JFC-Group JioFiber & AirFiber Methods Hub",
         "repo_url": "https://github.com/JFC-Group",
         "summary": "Collection of JioFiber & AirFiber open-source unlocking, custom firmware, OpenWrt, and automation methods."
+    },
+
+    # 23. Jio AirFiber IDU-6401 (Sercomm JIDU6401 / Filogic 830)
+    "jidu_6401": {
+        "title": "Jio AirFiber IDU-6401 (Sercomm JIDU6401) Official OpenWrt & Superpower Setup",
+        "hardware": "MediaTek MT7986A (Filogic 830) Quad-Core Cortex-A53 @ 2.0GHz, Wi-Fi 6 AX6000 4x4 MU-MIMO 160MHz, 512MB DDR4, 256MB SPI-NAND",
+        "repo_url": f"{GITHUB_BASE}/Jio-AirFiber-IDU-6401-OpenWrt",
+        "ip": "192.168.5.1 (Default OpenWrt: 192.168.1.1, Stock Jio: 192.168.31.1)",
+        "credentials": "root / Call@8848 (Default OpenWrt had blank root password)",
+        "uboot_bootpass": "!&X@oSCLY5tpz)=<",
+        "summary": "Full OpenWrt 25.12.6 flash on Sercomm JIDU6401 with Dual-Zone VPN (LAN 4 + separate VPN Wi-Fi), AdGuard Home adblocker, and RGB LED Heartbeat.",
+        "key_superpowers": [
+            "MediaTek PPE Hardware Flow Offloading: Multi-gigabit routing at 0-1% CPU load.",
+            "Dual-Zone Network Architecture: LAN Port 4 isolated into dedicated bridge `br-vpn` (192.168.40.1) with hardware Kill-Switch.",
+            "Dedicated WireGuard VPN Wi-Fi: Separate SSIDs `JioAirFiber_VPN_2.4G` & `JioAirFiber_VPN_5G` routing exclusively through ProtonVPN USA.",
+            "Network-Wide AdGuard Home: Running on port 3000, handling DNS on port 53 with encrypted DoH upstreams (Cloudflare, Google, Quad9) and 16MB optimistic RAM cache.",
+            "RGB LED Customizer: Blue Heartbeat pulse reflecting CPU load, WAN traffic activity blink, or night stealth mode.",
+            "Over 88 MB free writable /overlay flash storage (UBIFS)."
+        ],
+        "flashing_steps": [
+            "Step 1: Backup critical MTD partitions (mtd4 Factory/EEPROM, mtd1 BL2, mtd5 FIP, mtd2 uboot-env, mtd3 MFG, mtd10 Jio-Reserved).",
+            "Step 2: Enter U-Boot with bootpass `!&X@oSCLY5tpz)=<`.",
+            "Step 3: Bypass U-Boot signature enforcement: `fdt addr $(fdtcontroladdr); fdt rm /signature; bootm 0x46000000`.",
+            "Step 4: Format /dev/mtd6 (ubi2) and write initramfs factory UBI.",
+            "Step 5: Boot OpenWrt RAM stage and flash permanent `sysupgrade.bin` via `sysupgrade -n /tmp/sysupgrade.bin`."
+        ],
+        "critical_troubleshooting": [
+            "Android 'No Internet' on VPN Wi-Fi: Caused by table 100 missing the local subnet return route. Solved by adding `ip rule add to 192.168.40.0/24 lookup main priority 90` and DHCP option 6 pointing to 192.168.40.1.",
+            "5GHz DFS Radar Freeze: Setting Channel 36 to HE160 overlaps DFS channels 52-64. Set to HE80 (UNII-1 36-48 non-DFS) for instantaneous broadcast.",
+            "TCP Handshake / Webpage Hangs over WireGuard: Enable TCP MSS Clamping on zone vpn (`mtu_fix=1`) and set WireGuard MTU to 1360."
+        ]
     }
 }
 
@@ -307,6 +338,15 @@ REPOSITORIES_DATA["jiotv_go"] = REPOSITORIES_DATA["jiotv_go"]
 REPOSITORIES_DATA["rustone"] = REPOSITORIES_DATA["jfc_rustone"]
 REPOSITORIES_DATA["jfc"] = REPOSITORIES_DATA["jfc_group"]
 REPOSITORIES_DATA["jfc_group"] = REPOSITORIES_DATA["jfc_group"]
+
+# Jio AirFiber IDU-6401 Aliases
+REPOSITORIES_DATA["jidu6401"] = REPOSITORIES_DATA["jidu_6401"]
+REPOSITORIES_DATA["idu6401"] = REPOSITORIES_DATA["jidu_6401"]
+REPOSITORIES_DATA["6401"] = REPOSITORIES_DATA["jidu_6401"]
+REPOSITORIES_DATA["jio_6401"] = REPOSITORIES_DATA["jidu_6401"]
+REPOSITORIES_DATA["filogic830"] = REPOSITORIES_DATA["jidu_6401"]
+REPOSITORIES_DATA["jidu6j01"] = REPOSITORIES_DATA["jidu_6401"]
+REPOSITORIES_DATA["sercomm_6401"] = REPOSITORIES_DATA["jidu_6401"]
 
 GUIDES = REPOSITORIES_DATA
 REPOSITORIES = REPOSITORIES_DATA
